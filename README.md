@@ -1,6 +1,6 @@
 # react-native-stockfish-chess-engine
 
-Use stockfish chess engine in your project.
+Use stockfish chess engine 14 in your project.
 
 ## Installation
 
