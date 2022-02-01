@@ -34,10 +34,14 @@ export default function App() {
     mainLoop();
     sendCommand('uci');
 
+    setTimeout(() => {
+      sendCommand('isready');
+    }, 50);
+
     return () => {
       shutdownStockfish();
     };
-  }, []);
+  }, [stockfishEventListener]);
 
   return (
     <View style={styles.container}>
