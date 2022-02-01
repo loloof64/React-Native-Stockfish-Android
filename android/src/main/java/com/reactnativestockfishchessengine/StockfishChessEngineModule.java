@@ -24,7 +24,7 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
   }
 
   protected void loopReadingEngineOutput() {
-    int timeoutMs = 150;
+    int timeoutMs = 30;
     while (true) {
       if (Thread.currentThread().isInterrupted()) {
         break;

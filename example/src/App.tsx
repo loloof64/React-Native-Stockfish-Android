@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 import {
   StyleSheet,
   View,
+  Button,
   Text,
   NativeEventEmitter,
   NativeModules,
@@ -16,12 +17,10 @@ import {
 
 export default function App() {
   function handleStockfishOutput(output: string) {
-    console.log("Got output from Stockfish: "+output);
+    console.log('Got output from Stockfish: ' + output);
   }
 
-  const stockfishEventListener = useRef<EmitterSubscription>();
-
-  useEffect(() => {
+  const setup = useCallback(() => {
     const eventEmitter = new NativeEventEmitter(
       NativeModules.ReactNativeStockfishChessEngine
     );
@@ -31,21 +30,31 @@ export default function App() {
         handleStockfishOutput(event);
       }
     );
-    mainLoop();
-    sendCommand('uci');
 
     setTimeout(() => {
-      sendCommand('isready');
-    }, 50);
+      mainLoop();
+      sendCommand('uci');
+
+      setTimeout(() => {
+        sendCommand('isready');
+      }, 150);
+    }, 100);
+  }, []);
+
+  const sendUCICommand = useCallback(() => sendCommand('uci'), []);
+
+  const stockfishEventListener = useRef<EmitterSubscription>();
+
+  useEffect(() => {
+    setup();
 
     return () => {
       shutdownStockfish();
     };
-  }, [stockfishEventListener]);
-
+  }, []);
   return (
     <View style={styles.container}>
-      <Text>Stockfish demo</Text>
+      <Button onPress={sendUCICommand} title='Get engine options'/>
     </View>
   );
 }

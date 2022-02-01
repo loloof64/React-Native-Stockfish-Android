@@ -77,14 +77,8 @@ namespace UCI {
 
       else if (token == "uci") {
           std::stringstream  message;
-          message << "id name " << engine_info(true);
+          message << "id name " << engine_info(true) << "\n" << Options << "\nuciok";
           outputs.push(message.str());
-
-          std::stringstream message2;
-          message2 << Options;
-          outputs.push(message2.str());
-
-          outputs.push("uciok");
       }
 
       else if (token == "setoption")  setoption(is);
