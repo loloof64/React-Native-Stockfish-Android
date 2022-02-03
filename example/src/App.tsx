@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import {
   StyleSheet,
   View,
-  Button,
   Text,
+  TouchableHighlight,
   NativeEventEmitter,
   NativeModules,
   EmitterSubscription,
@@ -31,30 +31,55 @@ export default function App() {
       }
     );
 
-    setTimeout(() => {
-      mainLoop();
-      sendCommand('uci');
+    setTimeout(async () => {
+      await mainLoop();
+      await sendCommand('uci');
 
-      setTimeout(() => {
-        sendCommand('isready');
+      setTimeout(async () => {
+        await sendCommand('isready');
       }, 150);
     }, 100);
   }, []);
 
-  const sendUCICommand = useCallback(() => sendCommand('uci'), []);
+  const sendUCICommand = useCallback(async () => {
+    /////////////////////////////////////////////
+    console.log('Sending command UCI to engine');
+    /////////////////////////////////////////////
+    await sendCommand('uci');
+  }, []);
+
+  const searchBestMove = useCallback(async () => {
+    /////////////////////////////////////////////
+    console.log('Sending command Go to engine');
+    /////////////////////////////////////////////
+    await sendCommand('go');
+  }, []);
 
   const stockfishEventListener = useRef<EmitterSubscription>();
+
+  function cleanUp() {
+    return async () => {
+      ///////////////////////////////
+      console.log("Cleaning up Stockfish");
+      ///////////////////////////////
+      await shutdownStockfish();
+    };
+  }
 
   useEffect(() => {
     setup();
 
-    return () => {
-      shutdownStockfish();
-    };
+    cleanUp;
   }, []);
+
   return (
     <View style={styles.container}>
-      <Button onPress={sendUCICommand} title='Get engine options'/>
+      <TouchableHighlight style={styles.button} onPress={sendUCICommand}>
+        <Text style={styles.buttonText}>Get engine options</Text>
+      </TouchableHighlight>
+      <TouchableHighlight style={styles.button} onPress={searchBestMove}>
+        <Text style={styles.buttonText}>Compute best move</Text>
+      </TouchableHighlight>
     </View>
   );
 }
@@ -69,5 +94,14 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     marginVertical: 20,
+  },
+  button: {
+    backgroundColor: 'blue',
+    marginVertical: 8,
+    padding: 5,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: 'white',
   },
 });

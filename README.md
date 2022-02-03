@@ -42,4 +42,4 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 
 MIT
 
-Included code from [Stockfish](https://stockfishchess.org/) and from [react-native-stockfish](https://github.com/sunify/react-native-stockfish).
+Included code from [Stockfish](https://stockfishchess.org/).

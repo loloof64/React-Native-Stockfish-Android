@@ -22,15 +22,15 @@ Starts the main loop, and runs forever, unless the command 'quit' is sent !
 So don't forget to send 'quit' command when you're about to exit !
 Also, you'd better launch this command in a new "thread".
 */
-export function mainLoop(): void {
-  StockfishChessEngine.mainLoop();
+export async function mainLoop(): Promise<void> {
+  await StockfishChessEngine.mainLoop();
 }
 
 /**
 Disposes Stockfish engine.
 */
-export function shutdownStockfish() {
-  return StockfishChessEngine.shutdownStockfish();
+export async function shutdownStockfish(): Promise<void> {
+  await StockfishChessEngine.shutdownStockfish();
 }
 
 /**
@@ -38,6 +38,6 @@ export function shutdownStockfish() {
  * will simply have them queued one after the other.
  * @param command - String - command to be sent to the stockfish process input.
  */
-export function sendCommand(command: string): void {
-  return StockfishChessEngine.sendCommand(command);
+export async function sendCommand(command: string): Promise<void> {
+  await StockfishChessEngine.sendCommand(command);
 }

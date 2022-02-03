@@ -61,7 +61,7 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void mainLoop() {
+  public void mainLoop(Promise promise) {
     engineLineReader =
       new Thread(
         new Runnable() {
@@ -72,11 +72,12 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
       );
     engineLineReader.start();
     nativeMainLoop();
+    promise.resolve(null);
   }
 
   @ReactMethod
-  public void shutdownStockfish() {
-    sendCommand("quit");
+  public void shutdownStockfish(Promise promise) {
+    nativeSendCommand("quit");
 
     try {
       Thread.sleep(150);
@@ -85,6 +86,8 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
     if (engineLineReader != null) {
       engineLineReader.interrupt();
     }
+
+    promise.resolve(null);
   }
 
   public static native void nativeMainLoop();
@@ -92,8 +95,9 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
   protected static native String nativeReadNextOutput();
 
   @ReactMethod
-  public void sendCommand(String command) {
+  public void sendCommand(String command, Promise promise) {
     nativeSendCommand(command);
+    promise.resolve(null);
   }
 
   public static native void nativeSendCommand(String command);
