@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 
 import {
   StyleSheet,
@@ -16,9 +16,15 @@ import {
 } from 'react-native-stockfish-chess-engine';
 
 export default function App() {
-  function handleStockfishOutput(output: string) {
-    console.log('Got output from Stockfish: ' + output);
-  }
+
+  const [bestMove, setBestMove] = useState("");
+
+  const handleStockfishOutput = useCallback((output: string) => {
+    if (output.startsWith('bestmove')) {
+      const parts = output.split(' ');
+      setBestMove(parts[1]);
+    }
+  }, []);
 
   const setup = useCallback(() => {
     const eventEmitter = new NativeEventEmitter(
@@ -42,16 +48,10 @@ export default function App() {
   }, []);
 
   const sendUCICommand = useCallback(async () => {
-    /////////////////////////////////////////////
-    console.log('Sending command UCI to engine');
-    /////////////////////////////////////////////
     await sendCommand('uci');
   }, []);
 
   const searchBestMove = useCallback(async () => {
-    /////////////////////////////////////////////
-    console.log('Sending command Go to engine');
-    /////////////////////////////////////////////
     await sendCommand('go movetime 1000');
   }, []);
 
@@ -59,9 +59,6 @@ export default function App() {
 
   function cleanUp() {
     return async () => {
-      ///////////////////////////////
-      console.log("Cleaning up Stockfish");
-      ///////////////////////////////
       await shutdownStockfish();
     };
   }
@@ -80,6 +77,7 @@ export default function App() {
       <TouchableHighlight style={styles.button} onPress={searchBestMove}>
         <Text style={styles.buttonText}>Compute best move</Text>
       </TouchableHighlight>
+      <Text>Best move: {bestMove}</Text>
     </View>
   );
 }
