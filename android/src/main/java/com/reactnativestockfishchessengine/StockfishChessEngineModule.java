@@ -82,6 +82,8 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
     try {
       Thread.sleep(150);
     } catch (InterruptedException e) {}
+
+    cleanThreads();
     
     if (engineLineReader != null) {
       engineLineReader.interrupt();
@@ -101,4 +103,6 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
   }
 
   public static native void nativeSendCommand(String command);
+
+  private static native void cleanThreads();
 }

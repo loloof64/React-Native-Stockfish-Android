@@ -52,7 +52,7 @@ export default function App() {
     /////////////////////////////////////////////
     console.log('Sending command Go to engine');
     /////////////////////////////////////////////
-    await sendCommand('go');
+    await sendCommand('go movetime 1000');
   }, []);
 
   const stockfishEventListener = useRef<EmitterSubscription>();

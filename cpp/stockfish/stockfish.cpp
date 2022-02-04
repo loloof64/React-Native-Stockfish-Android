@@ -32,13 +32,12 @@ void mainLoopProcess() {
     Position::init();
     Bitbases::init();
     Endgames::init();
+    Threads.set(0);
     Threads.set(size_t(Options["Threads"]));
     Search::clear(); // After threads are up
     Eval::NNUE::init();
 
     UCI::commandInit();
-
-    Threads.set(0);
 }
 
 extern "C"
@@ -46,6 +45,12 @@ JNIEXPORT void JNICALL
 Java_com_reactnativestockfishchessengine_StockfishChessEngineModule_nativeMainLoop(JNIEnv * /*env*/, jobject /*thisz*/) {
     std::thread loopThread(mainLoopProcess);
     loopThread.join();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_reactnativestockfishchessengine_StockfishChessEngineModule_cleanThreads(JNIEnv * /*env*/, jobject /*thisz*/) {
+    Threads.set(0);
 }
 
 extern "C"
