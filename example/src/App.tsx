@@ -16,6 +16,8 @@ import {
   sendCommand,
 } from 'react-native-stockfish-chess-engine';
 
+import { Slider } from '@miblanchard/react-native-slider';
+
 import { Chess } from 'chess.ts';
 
 const INITIAL_POSITION =
@@ -27,6 +29,7 @@ export default function App() {
   const [startPosition, setStartPosition] = useState<string>(INITIAL_POSITION);
   const [error, setError] = useState<boolean>(false);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [thinkingTime, setThinkingTime] = useState<number>(500);
 
   const countPieceType = useCallback((board, pieceType) => {
     let count = 0;
@@ -76,11 +79,15 @@ export default function App() {
       console.log('Searching move for position: ' + startPosition);
       /////////////////////////////////
       await sendCommand(`position fen ${startPosition}`);
-      await sendCommand('go movetime 1000');
+      await sendCommand(`go movetime ${thinkingTime}`);
     } else {
       setError(true);
     }
-  }, [startPosition, countPieceType]);
+  }, [startPosition, countPieceType, thinkingTime]);
+
+  const handleThinkingTimeUpdate = useCallback((newValue) => {
+    setThinkingTime(newValue[0]);
+  }, []);
 
   const handleNewPositionEntered = useCallback((newValue) => {
     setStartPosition(newValue);
@@ -141,7 +148,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.componentsLine}>
+      <View style={styles.componentsColumn}>
         <TextInput
           onChangeText={handleNewPositionEntered}
           value={startPosition}
@@ -149,6 +156,19 @@ export default function App() {
         <TouchableHighlight style={styles.button} onPress={resetPosition}>
           <Text style={styles.buttonText}>Reset position</Text>
         </TouchableHighlight>
+      </View>
+      <View style={styles.componentsColumn}>
+        <Text>Thinking time</Text>
+        <View style={styles.componentsRow}>
+          <Slider
+            containerStyle={styles.slider}
+            minimumValue={500}
+            maximumValue={3000}
+            value={thinkingTime}
+            onValueChange={handleThinkingTimeUpdate}
+          />
+          <Text>{Math.round(thinkingTime)} ms</Text>
+        </View>
       </View>
       <TouchableHighlight style={styles.button} onPress={searchBestMove}>
         <Text style={styles.buttonText}>Compute best move</Text>
@@ -181,11 +201,19 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
   },
-  componentsLine: {
+  componentsColumn: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textInput: {},
+  componentsRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  slider: {
+    width: 200,
+  },
 });
