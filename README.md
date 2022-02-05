@@ -1,6 +1,6 @@
 # react-native-stockfish-chess-engine
 
-Use stockfish chess engine 14 in your project.
+Use stockfish chess engine 14 in your project (Only for Android).
 
 ## Installation
 
@@ -32,6 +32,14 @@ sendCommand("position start");
 shutdownStockfish(); // dispose the engine process
 eventListener.remove(); // dispose the Stockfish output reader process.
 ```
+
+Important notes :
+* You will need to check that the position you set up is valid before sending the command "go" and its variations.
+Because if the position is illegal, it will crash.
+The same will happen if it is already mate/stalemate.
+You can use a package like chess.ts for checking those states.
+
+* In order to run the example, refreshing the metro packager is not enough for the application to run correctly : you will need to run the command `npx react-native run-android` again. And it may be the same for your next application using this plugin.
 
 
 ## Contributing
