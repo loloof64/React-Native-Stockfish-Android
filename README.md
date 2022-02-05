@@ -34,6 +34,12 @@ eventListener.remove(); // dispose the Stockfish output reader process.
 ```
 
 Important notes :
+* You must download a stockfish NNUE file (from https://tests.stockfishchess.org/nns) and set option for it to be recognized :
+ - put the NNUE file somewhere in your project, I'll recommand you somewhere under your src folder
+ - send command `setoption name EvalFile value ${relativePath}` to Stockfish in your setup hook, best is after readyok has been sent by Stockfish
+ - send command `setoption name Use NNUE value true` thereafter.
+ Also you need to set up Metro Bundler to add nnue file for bundling : in your ~~metro.config.js~~, add the following if propery not set, under `resolver` property : `['nnue']`, otherwise just add the string 'nnue' to the list. 
+ If you don't want to use NNUE file, don't forget to remove this feature : `setoption name Use NNUE value false`, otherwise, the program may crash.
 * You will need to check that the position you set up is valid before sending the command "go" and its variations.
 Because if the position is illegal, it will crash.
 The same will happen if it is already mate/stalemate.
@@ -41,7 +47,7 @@ You can use a package like chess.ts for checking those states.
 Please also notice that chess.ts (based on chess.js) does not check everything at the time this plugin has been released, in particular :
 - if they are exactly one king for each side
 - if the other side is not in check
-You will have to check those yourself, as in the example if you want.
+You will have to check those yourself, as in the example if you want. (The example can be found on the github reposiitory : https://github.com/loloof64/React-Native-Stockfish-Android/tree/main/example).
 
 * In order to run the example, refreshing the metro packager is not enough for the application to run correctly : you will need to run the command `npx react-native run-android` again. And it may be the same for your next application using this plugin.
 

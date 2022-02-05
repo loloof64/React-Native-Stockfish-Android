@@ -14,7 +14,7 @@ import {
   mainLoop,
   shutdownStockfish,
   sendCommand,
-} from 'react-native-stockfish-chess-engine';
+} from 'react-native-stockfish-android';
 
 import { Slider } from '@miblanchard/react-native-slider';
 
@@ -78,15 +78,6 @@ export default function App() {
     if (isChessmateOrStalemate) {
       setGameOver(true);
     } else if (isValidPosition) {
-      /////////////////////////////////
-      console.log(
-        'Position command : ' +
-          `position fen ${startPosition} ${
-            playedMoves.length > 0 ? ' moves ' + playedMoves : ''
-          }`
-      );
-      console.log('Searching move for position: ' + startPosition);
-      /////////////////////////////////
       await sendCommand(
         `position fen ${startPosition} ${
           playedMoves.length > 0 ? ' moves ' + playedMoves : ''
@@ -119,13 +110,13 @@ export default function App() {
   }, []);
 
   const handleStockfishOutput = useCallback((output: string) => {
-    ///////////////////////////
     console.log(output);
-    ///////////////////////////
     if (output.startsWith('bestmove')) {
       const parts = output.split(' ');
       setBestMove(parts[1]);
     } else if (output === 'readyok') {
+      sendCommand('setoption name EvalFile value ./nn-b1f33bca03d3.nnue');
+      sendCommand('setoption name Use NNUE value true');
       setIsReady(true);
     }
   }, []);

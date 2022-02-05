@@ -41,6 +41,8 @@
 #include "incbin/incbin.h"
 #include "sharedioqueues.h"
 
+#define NNUE_EMBEDDING_OFF
+
 
 // Macro to embed the default efficiently updatable neural network (NNUE) file
 // data in the engine binary (using incbin.h, by Dale Weiler).
