@@ -38,6 +38,10 @@ Important notes :
 Because if the position is illegal, it will crash.
 The same will happen if it is already mate/stalemate.
 You can use a package like chess.ts for checking those states.
+Please also notice that chess.ts (based on chess.js) does not check everything at the time this plugin has been released, in particular :
+- if they are exactly one king for each side
+- if the other side is not in check
+You will have to check those yourself, as in the example if you want.
 
 * In order to run the example, refreshing the metro packager is not enough for the application to run correctly : you will need to run the command `npx react-native run-android` again. And it may be the same for your next application using this plugin.
 

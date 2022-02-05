@@ -30,6 +30,7 @@ export default function App() {
   const [error, setError] = useState<boolean>(false);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [thinkingTime, setThinkingTime] = useState<number>(500);
+  const [playedMoves, setPlayedMoves] = useState<string>('');
 
   const countPieceType = useCallback((board, pieceType) => {
     let count = 0;
@@ -76,14 +77,24 @@ export default function App() {
       setGameOver(true);
     } else if (isValidPosition) {
       /////////////////////////////////
+      console.log(
+        'Position command : ' +
+          `position fen ${startPosition} ${
+            playedMoves.length > 0 ? ' moves ' + playedMoves : ''
+          }`
+      );
       console.log('Searching move for position: ' + startPosition);
       /////////////////////////////////
-      await sendCommand(`position fen ${startPosition}`);
+      await sendCommand(
+        `position fen ${startPosition} ${
+          playedMoves.length > 0 ? ' moves ' + playedMoves : ''
+        }`
+      );
       await sendCommand(`go movetime ${thinkingTime}`);
     } else {
       setError(true);
     }
-  }, [startPosition, countPieceType, thinkingTime]);
+  }, [startPosition, countPieceType, thinkingTime, playedMoves]);
 
   const handleThinkingTimeUpdate = useCallback((newValue) => {
     setThinkingTime(newValue[0]);
@@ -93,6 +104,10 @@ export default function App() {
     setStartPosition(newValue);
     setError(false);
     setGameOver(false);
+  }, []);
+
+  const handlePlayedMovesEntered = useCallback((newValue) => {
+    setPlayedMoves(newValue);
   }, []);
 
   const resetPosition = useCallback(() => {
@@ -152,6 +167,7 @@ export default function App() {
         <TextInput
           onChangeText={handleNewPositionEntered}
           value={startPosition}
+          placeholder="Your position"
         />
         <TouchableHighlight style={styles.button} onPress={resetPosition}>
           <Text style={styles.buttonText}>Reset position</Text>
@@ -167,8 +183,16 @@ export default function App() {
             value={thinkingTime}
             onValueChange={handleThinkingTimeUpdate}
           />
-          <Text>{Math.round(thinkingTime)} ms</Text>
+          <Text>&nbsp;{Math.round(thinkingTime)} ms</Text>
         </View>
+      </View>
+      <View style={styles.componentsRow}>
+        <Text>Played moves</Text>
+        <TextInput
+          onChangeText={handlePlayedMovesEntered}
+          value={playedMoves}
+          placeholder="Your moves, e.g : e2e4 c7c5"
+        />
       </View>
       <TouchableHighlight style={styles.button} onPress={searchBestMove}>
         <Text style={styles.buttonText}>Compute best move</Text>
