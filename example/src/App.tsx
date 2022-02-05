@@ -31,6 +31,7 @@ export default function App() {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [thinkingTime, setThinkingTime] = useState<number>(500);
   const [playedMoves, setPlayedMoves] = useState<string>('');
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   const countPieceType = useCallback((board, pieceType) => {
     let count = 0;
@@ -43,6 +44,7 @@ export default function App() {
   }, []);
 
   const searchBestMove = useCallback(async () => {
+    if (!isReady) return;
     const positionWithTurnReversed = startPosition
       .split(' ')
       .map((elt, index) => {
@@ -94,7 +96,7 @@ export default function App() {
     } else {
       setError(true);
     }
-  }, [startPosition, countPieceType, thinkingTime, playedMoves]);
+  }, [startPosition, countPieceType, thinkingTime, playedMoves, isReady]);
 
   const handleThinkingTimeUpdate = useCallback((newValue) => {
     setThinkingTime(newValue[0]);
@@ -123,6 +125,8 @@ export default function App() {
     if (output.startsWith('bestmove')) {
       const parts = output.split(' ');
       setBestMove(parts[1]);
+    } else if (output === 'readyok') {
+      setIsReady(true);
     }
   }, []);
 
