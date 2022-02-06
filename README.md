@@ -11,6 +11,7 @@ npm install react-native-stockfish-android
 ## Usage
 
 ```js
+// Notice that all methods are asynchronous.
 import { mainLoop, shutdownStockfish, sendCommand } from 'react-native-stockfish-android';
 import { NativeEventEmitter, NativeModules } from 'react-native'; // in order to read Stockfish output.
 
@@ -20,16 +21,13 @@ const eventEmitter = new NativeEventEmitter(NativeModules.ReactNativeStockfishCh
 const eventListener = eventEmitter.addListener('stockfish-output', (line) => {
       console.log("Stockfish output: "+line);
 });
-mainLoop(); // starts the engine process.
-
-// When you want to read next output line :
-readNextOutput();
+await mainLoop(); // starts the engine process.
 
 // When you need to send a command (e.g) :
-sendCommand("position start");
+await sendCommand("position start");
 
 // In will destroy hook
-shutdownStockfish(); // dispose the engine process
+await shutdownStockfish(); // dispose the engine process
 eventListener.remove(); // dispose the Stockfish output reader process.
 ```
 
