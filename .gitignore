@@ -64,4 +64,4 @@ android/keystores/debug.keystore
 lib/
 
 *.hprof
-example/src/*.nnue
+example/**/*.nnue

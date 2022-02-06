@@ -38,7 +38,13 @@ Important notes :
  - put the NNUE file somewhere in your project, I'll recommand you somewhere under your src folder
  - send command `setoption name EvalFile value ${relativePath}` to Stockfish in your setup hook, best is after readyok has been sent by Stockfish
  - send command `setoption name Use NNUE value true` thereafter.
- Also you need to set up Metro Bundler to add nnue file for bundling : in your ~~metro.config.js~~, add the following if propery not set, under `resolver` property : `['nnue']`, otherwise just add the string 'nnue' to the list. 
+ Also you need to set up Metro Bundler to add nnue file for bundling:
+  - add this import `const defaultAssetExts = require("metro-config/src/defaults/defaults").assetExts;` on the imports section at top of the file
+  - add this in the `resolver` property :
+  ```js
+  assetExts: [...defaultAssetExts, 'nnue'],
+  ```
+  Also don't forget to import the nnue file somewhere in your code `import './nn-b1f33bca03d3.nnue';` and you should be done.
  If you don't want to use NNUE file, don't forget to remove this feature : `setoption name Use NNUE value false`, otherwise, the program may crash.
 * You will need to check that the position you set up is valid before sending the command "go" and its variations.
 Because if the position is illegal, it will crash.

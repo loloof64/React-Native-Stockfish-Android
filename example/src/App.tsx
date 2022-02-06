@@ -20,6 +20,8 @@ import { Slider } from '@miblanchard/react-native-slider';
 
 import { Chess } from 'chess.ts';
 
+import './nn-b1f33bca03d3.nnue';
+
 const INITIAL_POSITION =
   'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 const chess = new Chess();
