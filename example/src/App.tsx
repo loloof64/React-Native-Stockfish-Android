@@ -14,7 +14,7 @@ import {
   mainLoop,
   shutdownStockfish,
   sendCommand,
-} from 'react-native-stockfish-chess-engine';
+} from 'react-native-stockfish-android';
 
 import { Slider } from '@miblanchard/react-native-slider';
 

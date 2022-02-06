@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-stockfish-chess-engine": ["./src/index"]
+      "react-native-stockfish-android": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
