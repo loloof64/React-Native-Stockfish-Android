@@ -35,13 +35,13 @@
     "react-native",
     "android"
   ],
-  "repository": "https://github.com/loloof64/react-native-stockfish-chess-engine",
+  "repository": "https://github.com/loloof64/react-native-stockfish-android",
   "author": "Laurent Bernabe <laurent.bernabe@gmail.com> (https://github.com/loloof64)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/loloof64/react-native-stockfish-chess-engine/issues"
+    "url": "https://github.com/loloof64/react-native-stockfish-android/issues"
   },
-  "homepage": "https://github.com/loloof64/react-native-stockfish-chess-engine#readme",
+  "homepage": "https://github.com/loloof64/react-native-stockfish-android#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
