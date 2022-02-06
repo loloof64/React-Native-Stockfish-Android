@@ -5,13 +5,13 @@ Use stockfish chess engine 14 in your project (Only for Android).
 ## Installation
 
 ```sh
-npm install react-native-stockfish-chess-engine
+npm install react-native-stockfish-android
 ```
 
 ## Usage
 
 ```js
-import { mainLoop, shutdownStockfish, sendCommand } from 'react-native-stockfish-chess-engine';
+import { mainLoop, shutdownStockfish, sendCommand } from 'react-native-stockfish-android';
 import { NativeEventEmitter, NativeModules } from 'react-native'; // in order to read Stockfish output.
 
 // In startup hook
