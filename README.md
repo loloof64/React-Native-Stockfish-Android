@@ -49,8 +49,9 @@ You will have to check those yourself, as in the example if you want.
 ### Changing the downloaded NNUE file
 
 1. Go to [Stockfish NNUE files page](https://tests.stockfishchess.org/nns) and select a reference from the list.
-2. Modify CMakeLists.txt, by replacing the NNUE reference with the selected one in both places in the line starting by `file(DOWNLOAD `.
-3. Modify the reference name in `evaluate.h` in the line containing `#define EvalFileDefaultName   `.
+2. Modify CMakeLists.txt, by replacing line starting by `set (NNUE_NAME )` by setting your reference name, without any quote.
+3. Modify the reference name in `evaluate.h` in the line containing `#define EvalFileDefaultName   `, by setting your nnue file name, with the quotes of course.
+4.Modify the reference name in `evaluate.cpp` in the line containing `string currentEvalFileName = `, by setting your nnue file name, with the quotes of course.
 
 Then you're to compile again.
 

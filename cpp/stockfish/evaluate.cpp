@@ -29,6 +29,8 @@
 #include <sstream>
 #include <streambuf>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 #include "bitboard.h"
 #include "evaluate.h"
@@ -65,7 +67,7 @@ namespace Stockfish {
 namespace Eval {
 
   bool useNNUE;
-  string currentEvalFileName = "None";
+  string currentEvalFileName = "nn-6877cd24400e.nnue";
 
   /// NNUE::init() tries to load a NNUE network at startup time, or when the engine
   /// receives a UCI command "setoption name EvalFile value nn-[a-z0-9]{12}.nnue"
@@ -127,20 +129,26 @@ namespace Eval {
     if (eval_file.empty())
         eval_file = EvalFileDefaultName;
 
+    ////////////////////////////////////////
+    std::stringstream tmpMsg;
+    tmpMsg << "currentEvalFileName = " << currentEvalFileName;
+    outputs.push(tmpMsg.str());
+    ////////////////////////////////////////
+
     if (useNNUE && currentEvalFileName != eval_file)
     {
 
-        string msg1 = "info string ERROR: If the UCI option \"Use NNUE\" is set to true, network evaluation parameters compatible with the engine must be available.";
-        string msg2 = "info string ERROR: The option is set to true, but the network file " + eval_file + " was not loaded successfully.";
-        string msg3 = "info string ERROR: The UCI option EvalFile might need to specify the full path, including the directory name, to the network file.";
-        string msg4 = "info string ERROR: The default net can be downloaded from: https://tests.stockfishchess.org/api/nn/" + std::string(EvalFileDefaultName);
-        string msg5 = "info string ERROR: The engine will be terminated now.";
+        stringstream msg;
+        msg << "info string ERROR: If the UCI option \"Use NNUE\" is set to true, network evaluation parameters compatible with the engine must be available.";
+        msg << "\n" << "info string ERROR: The option is set to true, but the network file " + eval_file + " was not loaded successfully.";
+        msg << "\n" << "info string ERROR: The UCI option EvalFile might need to specify the full path, including the directory name, to the network file.";
+        msg << "\n" << "info string ERROR: The default net can be downloaded from: https://tests.stockfishchess.org/api/nn/" + std::string(EvalFileDefaultName);
+        msg << "\n" << "info string ERROR: The engine will be terminated now.";
 
-        outputs.push(msg1);
-        outputs.push(msg2);
-        outputs.push(msg3);
-        outputs.push(msg4);
-        outputs.push(msg5);
+        outputs.push(msg.str());
+
+        // Let the client program read outputs
+        this_thread::sleep_for(chrono::milliseconds(500));
 
         exit(EXIT_FAILURE);
     }
