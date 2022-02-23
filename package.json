@@ -1,6 +1,6 @@
 {
   "name": "react-native-stockfish-android",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Use stockfish chess engine in your project (Android only).",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

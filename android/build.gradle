@@ -7,7 +7,7 @@ buildscript {
         }
 
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.4.1'
+            classpath 'com.android.tools.build:gradle:7.0.2'
         }
     }
 }
@@ -19,10 +19,10 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('StockfishChessEngine_compileSdkVersion', 30)
+    compileSdkVersion safeExtGet('compileSdkVersion', 30)
     defaultConfig {
-        minSdkVersion safeExtGet('StockfishChessEngine_minSdkVersion', 21)
-        targetSdkVersion safeExtGet('StockfishChessEngine_targetSdkVersion', 30)
+        minSdkVersion safeExtGet('minSdkVersion', 21)
+        targetSdkVersion safeExtGet('targetSdkVersion', 30)
 
         externalNativeBuild {
             cmake {
