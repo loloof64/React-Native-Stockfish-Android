@@ -44,9 +44,15 @@ You will have to check those yourself, as in the example if you want.
 * In order to run the example, refreshing the metro packager is not enough for the application to run correctly : you will need to run the command `npx react-native run-android` again. And it may be the same for your next application using this plugin.
 
 
-## Contributing
+## Developers
 
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+### Changing the downloaded NNUE file
+
+1. Go to [Stockfish NNUE files page](https://tests.stockfishchess.org/nns) and select a reference from the list.
+2. Modify CMakeLists.txt, by replacing the NNUE reference with the selected one in both places in the line starting by `file(DOWNLOAD `.
+3. Modify the reference name in `evaluate.h` in the line containing `#define EvalFileDefaultName   `.
+
+Then you're to compile again.
 
 ## License
 

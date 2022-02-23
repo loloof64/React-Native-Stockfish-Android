@@ -19,11 +19,11 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    ndkVersion safeExtGet('StockfishChessEngine_ndkVersion', '21.4.7075529')
-    compileSdkVersion safeExtGet('StockfishChessEngine_compileSdkVersion', 30)
+    ndkVersion safeExtGet('ndkVersion', '21.4.7075529')
+    compileSdkVersion safeExtGet('compileSdkVersion', 30)
     defaultConfig {
-        minSdkVersion safeExtGet('StockfishChessEngine_minSdkVersion', 21)
-        targetSdkVersion safeExtGet('StockfishChessEngine_targetSdkVersion', 30)
+        minSdkVersion safeExtGet('minSdkVersion', 21)
+        targetSdkVersion safeExtGet('targetSdkVersion', 30)
 
         externalNativeBuild {
             cmake {

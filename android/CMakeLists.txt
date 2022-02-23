@@ -4,6 +4,9 @@ project(stockfish)
 set (CMAKE_VERBOSE_MAKEFILE ON)
 set (CMAKE_CXX_STANDARD 17)
 
+# Include stockfish NNUE
+file(DOWNLOAD https://tests.stockfishchess.org/api/nn/nn-6877cd24400e.nnue ../cpp/stockfish/nn-6877cd24400e.nnue SHOW_PROGRESS)
+
 add_library(stockfish
             SHARED
             ../cpp/stockfish/benchmark.cpp
