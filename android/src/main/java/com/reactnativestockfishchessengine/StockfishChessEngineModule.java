@@ -16,6 +16,7 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
   public static final String NAME = "StockfishChessEngine";
 
   protected Thread engineLineReader;
+  protected Thread mainLoopThread;
   protected ReactApplicationContext reactContext;
 
   public StockfishChessEngineModule(ReactApplicationContext reactContext) {
@@ -24,6 +25,7 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
   }
 
   protected void loopReadingEngineOutput() {
+    String previous = "";
     int timeoutMs = 30;
     while (true) {
       if (Thread.currentThread().isInterrupted()) {
@@ -32,9 +34,14 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
 
       String nextLine = readStdOut();
       if (nextLine != null) {
-        reactContext
-          .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-          .emit("stockfish-output", nextLine);
+        String nextContent = previous + nextLine;
+        String [] lines = nextContent.split("\n");
+
+        for (String line: lines) {
+          reactContext
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("stockfish-output", line);
+        }
       }
 
       try {
@@ -72,7 +79,15 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
         }
       );
     engineLineReader.start();
-    main();
+    mainLoopThread = 
+      new Thread(
+        new Runnable() {
+          public void run() {
+            main();
+          }
+        }
+      );
+    mainLoopThread.start();
     promise.resolve(null);
   }
 
@@ -83,6 +98,10 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
     try {
       Thread.sleep(50);
     } catch (InterruptedException e) {}
+
+    if (mainLoopThread != null) {
+      mainLoopThread.interrupt();
+    }
     
     if (engineLineReader != null) {
       engineLineReader.interrupt();
