@@ -23,7 +23,7 @@
 #define CHILD_READ_FD (pipes[PARENT_WRITE_PIPE][READ_FD])
 #define CHILD_WRITE_FD (pipes[PARENT_READ_PIPE][WRITE_FD])
 
-#define STRINGS_SIZE 80
+#define STRINGS_SIZE 300
 
 int main(int, char **);
 
