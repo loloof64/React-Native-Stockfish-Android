@@ -30,8 +30,8 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
         break;
       }
 
-      String nextLine = nativeReadNextOutput();
-      if (!nextLine.startsWith("@@@")) {
+      String nextLine = readStdOut();
+      if (nextLine != null) {
         reactContext
           .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
           .emit("stockfish-output", nextLine);
@@ -62,6 +62,7 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void mainLoop(Promise promise) {
+    init();
     engineLineReader =
       new Thread(
         new Runnable() {
@@ -71,19 +72,17 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
         }
       );
     engineLineReader.start();
-    nativeMainLoop();
+    main();
     promise.resolve(null);
   }
 
   @ReactMethod
   public void shutdownStockfish(Promise promise) {
-    nativeSendCommand("quit");
+    writeStdIn("quit");
 
     try {
-      Thread.sleep(150);
+      Thread.sleep(50);
     } catch (InterruptedException e) {}
-
-    cleanThreads();
     
     if (engineLineReader != null) {
       engineLineReader.interrupt();
@@ -92,17 +91,16 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
     promise.resolve(null);
   }
 
-  public static native void nativeMainLoop();
+  public static native void init();
+  public static native void main();
 
-  protected static native String nativeReadNextOutput();
+  protected static native String readStdOut();
 
   @ReactMethod
   public void sendCommand(String command, Promise promise) {
-    nativeSendCommand(command);
+    writeStdIn(command);
     promise.resolve(null);
   }
 
-  public static native void nativeSendCommand(String command);
-
-  private static native void cleanThreads();
+  protected static native void writeStdIn(String command);
 }

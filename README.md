@@ -1,6 +1,15 @@
 # react-native-stockfish-chess-engine
 
-Use stockfish chess engine 14 in your project (Only for Android).
+Use stockfish chess engine 15 in your project (Only for Android).
+
+## Prerequesites
+
+In Android Studio settings, go to Android Sdk tools, and install :
+* CMake 3.18.1
+* NDK 21.4.7075529
+* Android SDK build tool
+* Android SDK Command line tool
+
 
 ## Installation
 
@@ -53,7 +62,11 @@ You will have to check those yourself, as in the example if you want.
 3. Modify the reference name in `evaluate.h` in the line containing `#define EvalFileDefaultName   `, by setting your nnue file name, with the quotes of course.
 4.Modify the reference name in `evaluate.cpp` in the line containing `string currentEvalFileName = `, by setting your nnue file name, with the quotes of course.
 
-Then you're to compile again.
+## Updating Stockfish version
+
+Just change the folder /cpp/stockfish with the sources of the new version, and also adjust the referenced NNUE file, as described above.
+
+If necessary, import the code inside main() function in main.cpp of stockfish source file, into the main() function in cpp/bridge/stockfish.cpp. **But anyway do not forget to delete the main.cpp from Stockfish sources folder afterwards.**
 
 ## License
 

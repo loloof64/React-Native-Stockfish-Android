@@ -5,43 +5,15 @@ set (CMAKE_VERBOSE_MAKEFILE ON)
 set (CMAKE_CXX_STANDARD 17)
 
 # Include stockfish NNUE
-set (NNUE_NAME nn-6877cd24400e.nnue)
-file(DOWNLOAD https://tests.stockfishchess.org/api/nn/${NNUE_NAME} ../cpp/stockfish/${NNUE_NAME} SHOW_PROGRESS)
+set (NNUE_NAME nn-d0b74ce1e5eb.nnue)
+file(DOWNLOAD https://tests.stockfishchess.org/api/nn/${NNUE_NAME} ../cpp/${NNUE_NAME} SHOW_PROGRESS)
+file(COPY ../cpp/${NNUE_NAME} DESTINATION ${CMAKE_BINARY_DIR})
+
+file(GLOB_RECURSE stockfishCppPaths "../cpp/stockfish/src/*.cpp")
+file(GLOB_RECURSE bridgeCppPaths "../cpp/bridge/*.cpp")
 
 add_library(stockfish
             SHARED
-            ../cpp/stockfish/benchmark.cpp
-            ../cpp/stockfish/bitbase.cpp
-            ../cpp/stockfish/bitboard.cpp
-            ../cpp/stockfish/endgame.cpp
-            ../cpp/stockfish/evaluate.cpp
-            ../cpp/stockfish/lockedstringqueue.cpp
-            ../cpp/stockfish/material.cpp
-            ../cpp/stockfish/misc.cpp
-            ../cpp/stockfish/movegen.cpp
-            ../cpp/stockfish/movepick.cpp
-            ../cpp/stockfish/pawns.cpp
-            ../cpp/stockfish/position.cpp
-            ../cpp/stockfish/psqt.cpp
-            ../cpp/stockfish/search.cpp
-            ../cpp/stockfish/sharedioqueues.h
-            ../cpp/stockfish/stockfish.cpp
-            ../cpp/stockfish/thread.cpp
-            ../cpp/stockfish/timeman.cpp
-            ../cpp/stockfish/tt.cpp
-            ../cpp/stockfish/tune.cpp
-            ../cpp/stockfish/uci.cpp
-            ../cpp/stockfish/ucioption.cpp
-            ../cpp/stockfish/nnue/evaluate_nnue.cpp
-            ../cpp/stockfish/nnue/features/half_ka_v2_hm.cpp
-            ../cpp/stockfish/syzygy/tbprobe.cpp
-)
-
-# Specifies a path to native header files.
-include_directories(
-            ../cpp
-            ../cpp/stockfish/
-            ../cpp/stockfish/incbin
-            ../cpp/stockfish/nnue
-            ../cpp/stockfish/syzygy
+            ${stockfishCppPaths}
+            ${bridgeCppPaths}
 )
