@@ -32,15 +32,17 @@ public class StockfishChessEngineModule extends ReactContextBaseJavaModule {
         break;
       }
 
-      String nextLine = readStdOut();
-      if (nextLine != null) {
-        String nextContent = previous + nextLine;
-        String [] lines = nextContent.split("\n");
-
-        for (String line: lines) {
+      String tmp = readStdOut();
+      if (tmp != null) {
+        String nextContent = previous + tmp;
+        if (nextContent.endsWith("\n")) {
           reactContext
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit("stockfish-output", line);
+            .emit("stockfish-output", nextContent);
+          previous = "";
+        }
+        else {
+          previous = nextContent;
         }
       }
 

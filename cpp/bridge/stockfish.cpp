@@ -23,13 +23,13 @@
 #define CHILD_READ_FD (pipes[PARENT_WRITE_PIPE][READ_FD])
 #define CHILD_WRITE_FD (pipes[PARENT_READ_PIPE][WRITE_FD])
 
-#define STRINGS_SIZE 300
+#define STRINGS_SIZE 400
 
 int main(int, char **);
 
 const char *QUITOK = "quitok\n";
 int pipes[NUM_PIPES][2];
-char buffer[STRINGS_SIZE];
+char buffer[STRINGS_SIZE+1];
 
 int stockfish_init()
 {
@@ -61,17 +61,17 @@ ssize_t stockfish_stdin_write(const char *data)
 
 char *stockfish_stdout_read()
 {
-  ssize_t count = read(PARENT_READ_FD, buffer, sizeof(buffer) - 1);
-  if (count < 0)
-  {
-    return NULL;
+  char tmp[1];
+  int index;
+  for (index = 0; index < STRINGS_SIZE; index++) {
+    read(PARENT_READ_FD, tmp, 1);
+    char nextChar = tmp[0];
+    buffer[index] = nextChar;
+    if (nextChar == '\n'){
+      break;
+    }
   }
-
-  buffer[count] = 0;
-  if (strcmp(buffer, QUITOK) == 0)
-  {
-    return NULL;
-  }
+  buffer[index+1] = 0;
 
   return buffer;
 }
