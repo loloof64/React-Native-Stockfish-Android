@@ -32,8 +32,8 @@ const eventListener = eventEmitter.addListener('stockfish-output', (line) => {
 });
 await mainLoop(); // starts the engine process.
 
-// When you need to send a command (e.g) :
-await sendCommand("position start");
+// When you need to send a command (e.g) : don't forget the newline character :
+await sendCommand("position start\n");
 
 // In will destroy hook
 await shutdownStockfish(); // dispose the engine process

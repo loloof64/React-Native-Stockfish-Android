@@ -46,6 +46,7 @@ int stockfish_main()
 
   int argc = 1;
   char *argv[] = {(char *) ""};
+
   int exitCode = main(argc, argv);
 
   std::cout << QUITOK << std::flush;

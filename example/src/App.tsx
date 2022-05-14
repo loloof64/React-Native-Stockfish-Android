@@ -81,18 +81,16 @@ export default function App() {
       /////////////////////////////////
       console.log(
         'Position command : ' +
-          `position fen ${startPosition} ${
-            playedMoves.length > 0 ? ' moves ' + playedMoves : ''
-          }`
+        `position fen ${startPosition} ${playedMoves.length > 0 ? ' moves ' + playedMoves : ''
+        }`
       );
       console.log('Searching move for position: ' + startPosition);
       /////////////////////////////////
       await sendCommand(
-        `position fen ${startPosition} ${
-          playedMoves.length > 0 ? ' moves ' + playedMoves : ''
+        `position fen ${startPosition} ${playedMoves.length > 0 ? ' moves ' + playedMoves : '\n'
         }`
       );
-      await sendCommand(`go movetime ${thinkingTime}`);
+      await sendCommand(`go movetime ${thinkingTime}\n`);
     } else {
       setError(true);
     }
@@ -143,11 +141,15 @@ export default function App() {
 
     setTimeout(async () => {
       await mainLoop();
-      await sendCommand('uci');
 
       setTimeout(async () => {
-        await sendCommand('isready');
-      }, 150);
+        await sendCommand('uci\n');
+
+        setTimeout(async () => {
+          await sendCommand('isready\n');
+        }, 150);
+
+      }, 50);
     }, 100);
   }, [handleStockfishOutput]);
 

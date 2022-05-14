@@ -9,13 +9,13 @@ const LINKING_ERROR =
 const StockfishChessEngine = NativeModules.StockfishChessEngine
   ? NativeModules.StockfishChessEngine
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 /**
 Starts the main loop, and runs forever, unless the command 'quit' is sent !
