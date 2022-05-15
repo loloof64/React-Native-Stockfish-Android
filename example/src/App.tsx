@@ -123,7 +123,7 @@ export default function App() {
     if (output.startsWith('bestmove')) {
       const parts = output.split(' ');
       setBestMove(parts[1]);
-    } else if (output === 'readyok') {
+    } else if (output === 'readyok\n') {
       setIsReady(true);
     }
   }, []);
