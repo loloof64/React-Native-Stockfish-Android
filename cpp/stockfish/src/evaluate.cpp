@@ -61,7 +61,7 @@ namespace Stockfish {
 namespace Eval {
 
   bool useNNUE;
-  string currentEvalFileName = "nn-d0b74ce1e5eb.nnue";
+  string currentEvalFileName = "None";
 
   /// NNUE::init() tries to load a NNUE network at startup time, or when the engine
   /// receives a UCI command "setoption name EvalFile value nn-[a-z0-9]{12}.nnue"
