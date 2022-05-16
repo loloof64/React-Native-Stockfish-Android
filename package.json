@@ -1,6 +1,6 @@
 {
   "name": "react-native-stockfish-android",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Use stockfish chess engine in your project (Android only).",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -20,7 +20,8 @@
     "!ios/build",
     "!**/__tests__",
     "!**/__fixtures__",
-    "!**/__mocks__"
+    "!**/__mocks__",
+    "!**/*.nnue"
   ],
   "scripts": {
     "test": "jest",
