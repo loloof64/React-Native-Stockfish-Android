@@ -1,4 +1,4 @@
-package com.stockfishandroid;
+package com.reactnativestockfishchessengine;
 
 import androidx.annotation.NonNull;
 
@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class StockfishAndroidPackage implements ReactPackage {
+public class StockfishChessEnginePackage implements ReactPackage {
   @NonNull
   @Override
   public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
-    modules.add(new StockfishAndroidModule(reactContext));
+    modules.add(new StockfishChessEngineModule(reactContext));
     return modules;
   }
 

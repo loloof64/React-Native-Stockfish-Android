@@ -48,6 +48,7 @@ android {
   externalNativeBuild {
     cmake {
       path "CMakeLists.txt"
+      // version "3.18.1"
     }
   }
   buildTypes {
@@ -83,7 +84,7 @@ dependencies {
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "StockfishAndroid"
-    codegenJavaPackageName = "com.stockfishandroid"
+    libraryName = "StockfishChessEngine"
+    codegenJavaPackageName = "com.reactnativestockfishchessengine"
   }
 }

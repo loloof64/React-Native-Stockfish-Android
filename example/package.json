@@ -1,5 +1,6 @@
 {
-  "name": "StockfishAndroidExample",
+  "name": "react-native-stockfish-chess-engine-example",
+  "description": "Example app for react-native-stockfish-android",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +10,8 @@
     "pods": "pod-install --quiet"
   },
   "dependencies": {
+    "@miblanchard/react-native-slider": "^2.3.1",
+    "chess.ts": "^0.16.2",
     "react": "18.2.0",
     "react-native": "0.71.8"
   },

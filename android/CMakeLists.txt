@@ -1,15 +1,19 @@
-cmake_minimum_required(VERSION 3.4.1)
+cmake_minimum_required(VERSION 3.8)
+project(stockfish)
 
 set (CMAKE_VERBOSE_MAKEFILE ON)
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 17)
 
-add_library(cpp
+# Include stockfish NNUE
+set (NNUE_NAME nn-e1fb1ade4432.nnue)
+file(DOWNLOAD https://tests.stockfishchess.org/api/nn/${NNUE_NAME} ../cpp/${NNUE_NAME} SHOW_PROGRESS)
+file(COPY ../cpp/${NNUE_NAME} DESTINATION ${CMAKE_BINARY_DIR})
+
+file(GLOB_RECURSE stockfishCppPaths "../cpp/stockfish/src/*.cpp")
+file(GLOB_RECURSE bridgeCppPaths "../cpp/bridge/*.cpp")
+
+add_library(stockfish
             SHARED
-            ../cpp/react-native-stockfish-android.cpp
-            cpp-adapter.cpp
-)
-
-# Specifies a path to native header files.
-include_directories(
-            ../cpp
+            ${stockfishCppPaths}
+            ${bridgeCppPaths}
 )
