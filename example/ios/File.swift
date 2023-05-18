@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  StockfishChessEngineExample
+//  StockfishAndroidExample
 //
 
 import Foundation
